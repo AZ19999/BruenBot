@@ -1,5 +1,6 @@
 import os
 import random
+import pytz
 from datetime import datetime
 import requests
 import tweepy
@@ -12,7 +13,9 @@ MESSAGESAWAKE = [
     "David Bruensburger is concious.",
     "David Bruensburger is not asleep.",
     "David Bruensburger is active now.",
-    "David Bruensburger is wide awake."
+    "David Bruensburger is wide awake.",
+    "David Bruensburger is awake and carrying out his day.",
+    "David Bruensburger is up and about."
 ]
 
 MESSAGESASLEEP = [
@@ -23,7 +26,9 @@ MESSAGESASLEEP = [
     "David Bruensburger's status: Awake ❌",
     "David Bruensburger is resting for the night.",
     "David Bruensburger is now not active.",
-    "David Bruensburger is fast asleep."
+    "David Bruensburger is fast asleep.",
+    "David Bruensburger is in bed.",
+    "David Bruensburger is sleeping soundly."
 ]
 
 # Authorize Twitter with v1.1 API
@@ -62,11 +67,14 @@ def tweet(media=None, text=None) -> requests.Response:
     else:
         raise ValueError("Either 'text' or 'media' must be provided.")
 
+#returns a message based off of the current time in the Mountain timezone(UTC-6)
 def getRandomMessage() -> str:
-    current_hour = datetime.now().hour
-    if 8 <= current_hour < 22:  # Between 8 AM and 10 PM
+    mountain_tz = pytz.timezone('US/Mountain')
+    current_hour = datetime.now(mountain_tz).hour 
+    #David Bruensburger's waking hours are between 8am and 10pm
+    if 8 <= current_hour < 22:
         return random.choice(MESSAGESAWAKE)
-    else:  # Outside of 8 AM to 10 PM
+    else:
         return random.choice(MESSAGESASLEEP)
 
 def main():
