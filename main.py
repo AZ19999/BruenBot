@@ -55,6 +55,7 @@ def getRandomMessage() -> str:
 
 def main():
     message = getRandomMessage()
+    print("tweeting: " + message)
     tweet(text = message)
 
 if __name__ == '__main__':
