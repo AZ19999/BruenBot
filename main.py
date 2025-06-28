@@ -5,7 +5,7 @@ from datetime import datetime
 import requests
 import tweepy
 
-#various messages that the bot tweets out depending on if David Bruensgurger is awake or asleep
+# Various messages that the bot tweets depending on if David Bruensgurger is awake or asleep
 MESSAGESAWAKE = [
     "David Bruensburger is awake.",
     "David Bruensburger is up.",
@@ -49,7 +49,6 @@ def auth_v2(consumer_key, consumer_secret, access_token, access_token_secret):
 
 # Tweet text or media
 def tweet(media=None, text=None) -> requests.Response:
-    # In the next for 4 lines we are getting the keys from Step 4
     consumer_key = os.environ['CONSUMER_KEY']
     consumer_secret = os.environ['CONSUMER_SECRET']
     access_token = os.environ['ACCESS_TOKEN']
@@ -62,17 +61,18 @@ def tweet(media=None, text=None) -> requests.Response:
 
     if text:
         return client_v2.create_tweet(text = text)
+    # Currently there is no need for the bot to tweet media, but this is for futerproofing
     elif media:
         media_id = api_v1.media_upload(media).media_id
         return client_v2.create_tweet(media_ids = [media_id])
     else:
         raise ValueError("Either 'text' or 'media' must be provided.")
 
-#returns a message based off of the current time in the US Mountain timezone(UTC-6)
+# Returns a message based off of the current time in the US Mountain timezone(UTC-6)
 def getRandomMessage() -> str:
     mountain_tz = pytz.timezone('US/Mountain')
     current_hour = datetime.now(mountain_tz).hour 
-    #David Bruensburger's waking hours are between 8am and 10pm
+    # David Bruensburger's waking hours are between 8am and 10pm
     if 8 <= current_hour < 22:
         message = random.choice(MESSAGESAWAKE)
         print("tweeting: " + message)
