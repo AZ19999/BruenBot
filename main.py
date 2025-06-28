@@ -1,8 +1,18 @@
 import os
+import random
 import requests
 import tweepy
 
-MESSAGE = "David Bruensburger is Awake"
+MESSAGESAWAKE = [
+    "David Bruensburger is awake.",
+    "David Bruensburger is up.",
+    "David Bruensburger is still awake.",
+    "David Bruensburger's status: Awake ✅",
+    "David Bruensburger is concious.",
+    "David Bruensburger is not asleep.",
+    "David Bruensburger is active now.",
+    "David Bruensburger is wide awake."
+]
 
 # Authorize Twitter with v1.1 API
 def auth_v1(consumer_key, consumer_secret, access_token, access_token_secret):
@@ -40,9 +50,12 @@ def tweet(media=None, text=None) -> requests.Response:
     else:
         raise ValueError("Either 'text' or 'media' must be provided.")
 
+def getRandomMessage() -> str:
+    return random.choice(MESSAGESAWAKE)
 
 def main():
-    tweet(text = MESSAGE)
+    message = getRandomMessage()
+    tweet(text = message)
 
 if __name__ == '__main__':
     main()
