@@ -1,5 +1,6 @@
 import os
 import random
+from datetime import datetime
 import requests
 import tweepy
 
@@ -12,6 +13,17 @@ MESSAGESAWAKE = [
     "David Bruensburger is not asleep.",
     "David Bruensburger is active now.",
     "David Bruensburger is wide awake."
+]
+
+MESSAGESASLEEP = [
+    "David Bruensburger is asleep.",
+    "David Bruensburger went to bed",
+    "David Bruensburger is not awake.",
+    "David Bruensburger has begun his slumber.",
+    "David Bruensburger's status: Awake ❌",
+    "David Bruensburger is resting for the night.",
+    "David Bruensburger is now not active.",
+    "David Bruensburger is fast asleep."
 ]
 
 # Authorize Twitter with v1.1 API
@@ -51,7 +63,11 @@ def tweet(media=None, text=None) -> requests.Response:
         raise ValueError("Either 'text' or 'media' must be provided.")
 
 def getRandomMessage() -> str:
-    return random.choice(MESSAGESAWAKE)
+    current_hour = datetime.now().hour
+    if 8 <= current_hour < 22:  # Between 8 AM and 10 PM
+        return random.choice(MESSAGESAWAKE)
+    else:  # Outside of 8 AM to 10 PM
+        return random.choice(MESSAGESASLEEP)
 
 def main():
     message = getRandomMessage()
