@@ -74,13 +74,16 @@ def getRandomMessage() -> str:
     current_hour = datetime.now(mountain_tz).hour 
     #David Bruensburger's waking hours are between 8am and 10pm
     if 8 <= current_hour < 22:
-        return random.choice(MESSAGESAWAKE)
+        message = random.choice(MESSAGESAWAKE)'
+        print("tweeting: + " + message)
+        return message
     else:
-        return random.choice(MESSAGESASLEEP)
+        message = random.choice(MESSAGESASLEEP)
+        print("tweeting: + " + message)
+        return message
 
 def main():
     message = getRandomMessage()
-    print("tweeting: " + message)
     tweet(text = message)
 
 if __name__ == '__main__':
