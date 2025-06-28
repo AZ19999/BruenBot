@@ -1,16 +1,8 @@
 import os
-import random
 import requests
 import tweepy
 
-
-# Pick a random image/video from the 'assets' folder
-def get_random_media():
-    path = 'assets' # 
-    objects = os.listdir(path)
-
-    media = random.choice(objects)
-    return os.path.join(path, media)
+MESSAGE = "David Bruensburger is Awake"
 
 
 # Authorize Twitter with v1.1 API
@@ -29,8 +21,8 @@ def auth_v2(consumer_key, consumer_secret, access_token, access_token_secret):
     )
 
 
-# Tweet picked image/video
-def tweet(media) -> requests.Response:
+# Tweet text or media
+def tweet(media=None, text=None) -> requests.Response:
     # In the next for 4 lines we are getting the keys from Step 4
     consumer_key = os.environ['CONSUMER_KEY']
     consumer_secret = os.environ['CONSUMER_SECRET']
@@ -42,14 +34,17 @@ def tweet(media) -> requests.Response:
     client_v2 = auth_v2(consumer_key, consumer_secret,
                         access_token, access_token_secret)
 
-    media_id = api_v1.media_upload(media).media_id
-
-    return client_v2.create_tweet(media_ids=[media_id])
+    if text:
+        return client_v2.create_tweet(text = text)
+    elif media:
+        media_id = api_v1.media_upload(media).media_id
+        return client_v2.create_tweet(media_ids = [media_id])
+    else:
+        raise ValueError("Either 'text' or 'media' must be provided.")
 
 
 def main():
-    media = get_random_media()
-    tweet(media)
+    tweet(text = MESSAGE)
 
 
 if __name__ == '__main__':
