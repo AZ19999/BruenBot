@@ -5,6 +5,7 @@ from datetime import datetime
 import requests
 import tweepy
 
+#various messages that the bot tweets out depending on if David Bruensgurger is awake or asleep
 MESSAGESAWAKE = [
     "David Bruensburger is awake.",
     "David Bruensburger is up.",
@@ -67,7 +68,7 @@ def tweet(media=None, text=None) -> requests.Response:
     else:
         raise ValueError("Either 'text' or 'media' must be provided.")
 
-#returns a message based off of the current time in the Mountain timezone(UTC-6)
+#returns a message based off of the current time in the US Mountain timezone(UTC-6)
 def getRandomMessage() -> str:
     mountain_tz = pytz.timezone('US/Mountain')
     current_hour = datetime.now(mountain_tz).hour 
