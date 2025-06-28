@@ -1,4 +1,4 @@
-name: tweet a random image # name can be anything
+name: tweet message
 
 on:
   workflow_dispatch:

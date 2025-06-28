@@ -4,7 +4,6 @@ import tweepy
 
 MESSAGE = "David Bruensburger is Awake"
 
-
 # Authorize Twitter with v1.1 API
 def auth_v1(consumer_key, consumer_secret, access_token, access_token_secret):
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
@@ -19,7 +18,6 @@ def auth_v2(consumer_key, consumer_secret, access_token, access_token_secret):
         access_token=access_token, access_token_secret=access_token_secret,
         return_type=requests.Response,
     )
-
 
 # Tweet text or media
 def tweet(media=None, text=None) -> requests.Response:
@@ -45,7 +43,6 @@ def tweet(media=None, text=None) -> requests.Response:
 
 def main():
     tweet(text = MESSAGE)
-
 
 if __name__ == '__main__':
     main()
